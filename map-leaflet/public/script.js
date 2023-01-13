@@ -15,7 +15,13 @@ function onMapClick(e) {
 }
 
 map.on('click', onMapClick);
+map.on('dragend', onMapDragend);
 
+function onMapDragend(e){
+    //por ajax pedir los datos de las coordenadas del map
+    //cuando devuelva los datos
+    var marker = L.marker([51.5, -0.09]).addTo(map);
+}
 var popup = L.popup();
 
 function onMapClick(e) {
