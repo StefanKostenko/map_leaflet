@@ -1,8 +1,40 @@
 <script>
+    var map = L.map('map').setView([51.505, -0.09], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
     var cordenadas = JSON.parse('{{ cordenadas|raw }}');
     for(var i= 0; i < cordenadas.length; i++){
         var x = cordenadas[i].x;
         var y = cordenadas[i].y;
+        var name = cordenadas[i].name;
+        var description = cordenadas[i].description;
         console.log(cordenadas);
+
+        var punto = L.marker([cordenadas[i].x, cordenadas[i].y]).addTo(map);
+        punto.bindPopup(name + "\t" + description).openPopup();
     }
+
+
+    function onMapClick(e) {
+        alert("You clicked the map at " + e.latlng);
+    }
+
+    map.on('click', onMapClick);
+    map.on('dragend', onMapDragend);
+
+    var popup = L.popup();
+
+    function onMapClick(e) {
+        popup
+            .setLatLng(e.latlng)
+            .setContent("You clicked the map at " + e.latlng.toString())
+            .openOn(map);
+    }
+
+    map.on('click', onMapClick);
+
 </script>
